@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.nimbletest.ui.login.viewmodel.LoginViewModel
+import com.example.nimbletest.ui.login.LoginViewModel
 import com.example.nimbletest.navigation.AppNavigation
 import com.example.nimbletest.ui.theme.NimbleTestTheme
 import dagger.hilt.android.AndroidEntryPoint

@@ -1,10 +1,11 @@
-package com.example.nimbletest.ui.login.viewmodel
+package com.example.nimbletest.ui.login
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nimbletest.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,7 +26,7 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading : LiveData<Boolean> = _isLoading
 
-    fun onLoginChanged(email: String, password: String){
+    fun onLoginChanged(email: String, password: String?){
         _email.value = email
         _password.value = password
         _isLoginEnable.value = enableLogin(email)
@@ -39,6 +40,12 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
             _isLoading.value = true
             loginUseCase(email.value!!,password.value!!)
             _isLoading.value = false
+        }
+    }
+
+    fun onResetPasswordSelected(){
+        viewModelScope.launch {
+
         }
     }
 

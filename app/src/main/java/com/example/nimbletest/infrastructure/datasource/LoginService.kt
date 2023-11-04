@@ -1,4 +1,4 @@
-package com.example.nimbletest.infrastructure.network
+package com.example.nimbletest.infrastructure.datasource
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
