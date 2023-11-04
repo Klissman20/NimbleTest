@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nimbletest.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -37,9 +36,12 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
 
     fun onLoginSelected(){
         viewModelScope.launch {
-            _isLoading.value = true
-            loginUseCase(email.value!!,password.value!!)
-            _isLoading.value = false
+
+            val response = loginUseCase(email.value!!,password.value!!)
+            if (response == 200){
+                _isLoading.value = true
+            }
+
         }
     }
 
