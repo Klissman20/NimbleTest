@@ -58,7 +58,7 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
             ImageLogo(
                 Modifier
                     .align(Alignment.TopCenter)
-                    .padding(top = 150.dp)
+                    .padding(top = 153.dp)
             )
             Body(Modifier.align(Alignment.Center), loginViewModel)
         }
@@ -87,7 +87,7 @@ fun Background() {
             contentDescription = "",
             modifier = Modifier
                 .fillMaxSize()
-                .alpha(0.1f)
+                .alpha(0.2f)
                 .blur(15.dp)
         )
     }
@@ -160,7 +160,8 @@ fun Password(password: String, onTextChange: (String) -> Unit) {
             containerColor = Color.DarkGray,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            placeholderColor = Color.Gray
+            placeholderColor = Color.Gray,
+            cursorColor = Color.White
         ),
         shape = RoundedCornerShape(10.dp),
         trailingIcon = {
@@ -190,7 +191,8 @@ fun Email(email: String, onTextChange: (String) -> Unit) {
             containerColor = Color.DarkGray,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            placeholderColor = Color.Gray
+            placeholderColor = Color.Gray,
+            cursorColor = Color.White
         ),
         shape = RoundedCornerShape(10.dp)
     )
@@ -205,9 +207,9 @@ fun ImageLogo(modifier: Modifier) {
     )
 }
 
-
-@Preview(showBackground = false)
-@Composable
-fun Preview() {
-    LoginScreen(loginViewModel = LoginViewModel())
-}
+//
+//@Preview(showBackground = false)
+//@Composable
+//fun Preview() {
+//    LoginScreen()
+//}
