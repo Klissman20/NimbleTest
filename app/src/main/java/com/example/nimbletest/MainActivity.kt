@@ -13,7 +13,9 @@ import androidx.compose.ui.Modifier
 import com.example.nimbletest.login.ui.LoginScreen
 import com.example.nimbletest.login.ui.LoginViewModel
 import com.example.nimbletest.ui.theme.NimbleTestTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val loginViewModel: LoginViewModel by viewModels()
