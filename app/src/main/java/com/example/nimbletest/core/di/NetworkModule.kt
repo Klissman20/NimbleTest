@@ -1,6 +1,6 @@
 package com.example.nimbletest.core.di
 
-import com.example.nimbletest.login.data.network.LoginClient
+import com.example.nimbletest.infrastructure.network.LoginClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -8,11 +8,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.nimbletest.login.ui.LoginScreen
-import com.example.nimbletest.login.ui.LoginViewModel
+import com.example.nimbletest.ui.login.viewmodel.LoginViewModel
+import com.example.nimbletest.navigation.AppNavigation
 import com.example.nimbletest.ui.theme.NimbleTestTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,17 +32,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoginScreen(loginViewModel)
+                    AppNavigation()
                 }
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }

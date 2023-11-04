@@ -1,11 +1,11 @@
-package com.example.nimbletest.login.ui
+package com.example.nimbletest.ui.login.viewmodel
 
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nimbletest.login.domain.LoginUseCase
+import com.example.nimbletest.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,11 +28,11 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     fun onLoginChanged(email: String, password: String){
         _email.value = email
         _password.value = password
-        _isLoginEnable.value = enableLogin(email,password)
+        _isLoginEnable.value = enableLogin(email)
     }
 
-    private fun enableLogin(email:String, password: String): Boolean =
-        Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length > 6
+    private fun enableLogin(email:String, /*password: String*/): Boolean =
+        Patterns.EMAIL_ADDRESS.matcher(email).matches() //&& password.length > 6
 
     fun onLoginSelected(){
         viewModelScope.launch {

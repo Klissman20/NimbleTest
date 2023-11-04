@@ -1,6 +1,6 @@
-package com.example.nimbletest.login.data.network
+package com.example.nimbletest.infrastructure.network
 
-import com.example.nimbletest.login.data.network.response.LoginResponse
+import com.example.nimbletest.infrastructure.network.response.LoginResponse
 import retrofit2.Response
 import retrofit2.http.POST
 

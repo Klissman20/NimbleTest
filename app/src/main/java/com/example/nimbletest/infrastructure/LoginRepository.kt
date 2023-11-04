@@ -1,6 +1,6 @@
-package com.example.nimbletest.login.data
+package com.example.nimbletest.infrastructure
 
-import com.example.nimbletest.login.data.network.LoginService
+import com.example.nimbletest.infrastructure.network.LoginService
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(private val api : LoginService){

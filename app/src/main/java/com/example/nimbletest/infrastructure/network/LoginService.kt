@@ -1,8 +1,7 @@
-package com.example.nimbletest.login.data.network
+package com.example.nimbletest.infrastructure.network
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
 import javax.inject.Inject
 
 class LoginService @Inject constructor(private val loginClient: LoginClient){

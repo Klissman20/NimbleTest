@@ -1,6 +1,6 @@
-package com.example.nimbletest.login.domain
+package com.example.nimbletest.domain
 
-import com.example.nimbletest.login.data.LoginRepository
+import com.example.nimbletest.infrastructure.LoginRepository
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(private val repository : LoginRepository){

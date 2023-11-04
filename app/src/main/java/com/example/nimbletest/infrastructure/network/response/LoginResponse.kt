@@ -1,4 +1,4 @@
-package com.example.nimbletest.login.data.network.response
+package com.example.nimbletest.infrastructure.network.response
 
 import com.google.gson.annotations.SerializedName
 

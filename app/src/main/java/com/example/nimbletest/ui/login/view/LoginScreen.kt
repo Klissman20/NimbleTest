@@ -1,4 +1,4 @@
-package com.example.nimbletest.login.ui
+package com.example.nimbletest.ui.login.view
 
 
 import androidx.compose.foundation.Image
@@ -31,12 +31,17 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nimbletest.R
+import com.example.nimbletest.ui.login.viewmodel.LoginViewModel
+
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel) {
@@ -54,7 +59,7 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
         } else {
-            Background()
+            CoverBackground()
             ImageLogo(
                 Modifier
                     .align(Alignment.TopCenter)
@@ -66,7 +71,7 @@ fun LoginScreen(loginViewModel: LoginViewModel) {
 }
 
 @Composable
-fun Background() {
+fun CoverBackground() {
 
     val linealGradient = Brush.linearGradient(
         0.0f to Color.Gray,
@@ -87,11 +92,15 @@ fun Background() {
             contentDescription = "",
             modifier = Modifier
                 .fillMaxSize()
-                .alpha(0.2f)
+                .alpha(0.1f)
                 .blur(15.dp)
         )
     }
 }
+
+val firaSansFamily = FontFamily(
+    Font(R.font.neuzeit_s_lt_std_book)
+)
 
 @Composable
 fun Body(modifier: Modifier, loginViewModel: LoginViewModel) {
@@ -128,7 +137,13 @@ fun LoginButton(loginEnable: Boolean, loginViewModel: LoginViewModel) {
         ),
         shape = RoundedCornerShape(10.dp)
     ) {
-        Text(text = "Log in", fontSize = 16.sp)
+        Text(
+            text = "Log in",
+            fontFamily = firaSansFamily,
+            fontWeight = FontWeight.W800,
+            fontSize = 17.sp,
+            lineHeight = 22.sp
+        )
     }
 }
 
@@ -136,9 +151,13 @@ fun LoginButton(loginEnable: Boolean, loginViewModel: LoginViewModel) {
 fun ForgotPassword() {
     Text(
         text = "Forgot?",
-        fontSize = 16.sp,
         color = Color.Gray,
-        modifier = Modifier.padding(end = 10.dp)
+        modifier = Modifier.padding(end = 10.dp),
+        fontFamily = firaSansFamily,
+        fontWeight = FontWeight.W400,
+        fontSize = 15.sp,
+        lineHeight = 20.sp
+
     )
 }
 
@@ -167,8 +186,13 @@ fun Password(password: String, onTextChange: (String) -> Unit) {
         trailingIcon = {
             ForgotPassword()
         },
-        visualTransformation = PasswordVisualTransformation()
-
+        visualTransformation = PasswordVisualTransformation(),
+        textStyle = TextStyle(
+            fontFamily = firaSansFamily,
+            fontWeight = FontWeight.W400,
+            fontSize = 17.sp,
+            lineHeight = 22.sp
+        )
     )
 }
 
@@ -176,6 +200,7 @@ fun Password(password: String, onTextChange: (String) -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Email(email: String, onTextChange: (String) -> Unit) {
+
     TextField(
         value = email,
         onValueChange = { onTextChange(it) },
@@ -194,7 +219,13 @@ fun Email(email: String, onTextChange: (String) -> Unit) {
             placeholderColor = Color.Gray,
             cursorColor = Color.White
         ),
-        shape = RoundedCornerShape(10.dp)
+        shape = RoundedCornerShape(10.dp),
+        textStyle = TextStyle(
+            fontFamily = firaSansFamily,
+            fontWeight = FontWeight.W400,
+            fontSize = 17.sp,
+            lineHeight = 22.sp
+        )
     )
 }
 
@@ -206,10 +237,3 @@ fun ImageLogo(modifier: Modifier) {
         modifier = modifier
     )
 }
-
-//
-//@Preview(showBackground = false)
-//@Composable
-//fun Preview() {
-//    LoginScreen()
-//}
