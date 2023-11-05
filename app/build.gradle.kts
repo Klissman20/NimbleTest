@@ -79,6 +79,9 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
 
+    //PagerDots
+    implementation ("com.google.accompanist:accompanist-pager:0.22.0-rc")
+
     //Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.google.code.gson:gson:2.10.1")

@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.example.nimbletest.R
-import com.example.nimbletest.navigation.AppScreens
+import com.example.nimbletest.ui.navigation.AppScreens
 import kotlinx.coroutines.delay
 
 @Composable

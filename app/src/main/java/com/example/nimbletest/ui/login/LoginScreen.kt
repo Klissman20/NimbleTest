@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.nimbletest.R
-import com.example.nimbletest.navigation.AppScreens
+import com.example.nimbletest.ui.navigation.AppScreens
 
 
 @Composable
@@ -52,15 +52,10 @@ fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController
         Modifier
             .fillMaxSize()
     ) {
-        val isLoading: Boolean by loginViewModel.isLoading.observeAsState(initial = false)
-        if (isLoading) {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center)
-            ) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
+        val isAuthenticated: Boolean by loginViewModel.isAuthenticated.observeAsState(initial = false)
+        if (isAuthenticated) {
+            navController.popBackStack()
+            navController.navigate(AppScreens.HomeScreen.route)
         } else {
             CoverBackground()
             ImageLogo(
@@ -116,7 +111,7 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel, navController: NavH
             loginViewModel.onLoginChanged(email = it, password)
         }
         Spacer(modifier = Modifier.size(20.dp))
-        Password(password,navController) {
+        Password(password, navController) {
             loginViewModel.onLoginChanged(email, password = it)
         }
         Spacer(modifier = Modifier.size(20.dp))
@@ -126,9 +121,14 @@ fun Body(modifier: Modifier, loginViewModel: LoginViewModel, navController: NavH
 }
 
 @Composable
-fun LoginButton(loginEnable: Boolean, loginViewModel: LoginViewModel) {
+fun LoginButton(
+    loginEnable: Boolean,
+    loginViewModel: LoginViewModel
+) {
     Button(
-        onClick = { loginViewModel.onLoginSelected() },
+        onClick = {
+            loginViewModel.onLoginSelected()
+        },
         enabled = loginEnable,
         modifier = Modifier
             .fillMaxWidth()
