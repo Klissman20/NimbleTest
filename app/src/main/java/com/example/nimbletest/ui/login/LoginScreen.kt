@@ -31,6 +31,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -48,12 +49,13 @@ import com.example.nimbletest.ui.navigation.AppScreens
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
+    loginViewModel.onCreate()
     Box(
         Modifier
             .fillMaxSize()
     ) {
-        val isAuthenticated: Boolean by loginViewModel.isAuthenticated.observeAsState(initial = false)
-        if (isAuthenticated) {
+        val hasToken: Boolean by loginViewModel.hasToken.observeAsState(initial = false)
+        if (hasToken) {
             navController.popBackStack()
             navController.navigate(AppScreens.HomeScreen.route)
         } else {
@@ -73,16 +75,15 @@ fun CoverBackground() {
 
     val linealGradient = Brush.linearGradient(
         0.0f to Color(0x33000000),
-        0.5f to Color(0xE6000000),
-        1.0f to Color.Black,
+        0.5f to Color(0x80000000),
+        1.0f to Color(0xFF000000),
         start = Offset.Zero,
         end = Offset.Infinite
     )
 
     Box(
         modifier = Modifier
-            .fillMaxSize()
-            .background(linealGradient),
+            .fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
         Image(
@@ -90,8 +91,13 @@ fun CoverBackground() {
             contentDescription = "",
             modifier = Modifier
                 .fillMaxSize()
-                .alpha(0.2f)
-                .blur(20.dp)
+                .blur(30.dp),
+            contentScale = ContentScale.FillBounds
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(linealGradient)
         )
     }
 }

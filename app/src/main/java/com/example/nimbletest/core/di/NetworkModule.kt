@@ -1,6 +1,6 @@
 package com.example.nimbletest.core.di
 
-import com.example.nimbletest.infrastructure.datasource.LoginClient
+import com.example.nimbletest.infrastructure.datasources.NimbleClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +25,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideLoginClient(retrofit: Retrofit): LoginClient {
-        return retrofit.create(LoginClient::class.java)
+    fun provideLoginClient(retrofit: Retrofit): NimbleClient {
+        return retrofit.create(NimbleClient::class.java)
     }
 }

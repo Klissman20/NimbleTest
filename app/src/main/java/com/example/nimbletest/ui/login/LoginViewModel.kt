@@ -5,14 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nimbletest.domain.GetTokenUseCase
 import com.example.nimbletest.domain.LoginUseCase
-import com.example.nimbletest.ui.navigation.AppScreens
+import com.example.nimbletest.domain.SetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginUseCase: LoginUseCase,
+    private val getTokenUseCase: GetTokenUseCase,
+    private val setTokenUseCase: SetTokenUseCase
+) : ViewModel() {
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String> = _email
@@ -23,11 +28,11 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
     private val _isLoginEnable = MutableLiveData<Boolean>()
     val isLoginEnable: LiveData<Boolean> = _isLoginEnable
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
     private val _isAuthenticated = MutableLiveData<Boolean>()
     val isAuthenticated: LiveData<Boolean> = _isAuthenticated
+
+    private val _hasToken = MutableLiveData<Boolean>()
+    val hasToken: LiveData<Boolean> = _hasToken
 
     fun onLoginChanged(email: String, password: String?) {
         _email.value = email
@@ -40,10 +45,28 @@ class LoginViewModel @Inject constructor(private val loginUseCase: LoginUseCase)
 
     fun onLoginSelected() {
         viewModelScope.launch {
-            val response = loginUseCase(email.value!!, password.value!!)
-            if (response == 200) {
-                _isAuthenticated.value = true
+            val result = loginUseCase(email.value!!, password.value!!)
+            if (!result.accessToken.isNullOrEmpty()) {
+                saveTokenValue(result.accessToken)
             }
+        }
+    }
+
+    fun onCreate() {
+        getTokenValue()
+    }
+
+    private fun getTokenValue() {
+        viewModelScope.launch {
+            getTokenUseCase("token")?.let {
+                _hasToken.value = true
+            }
+        }
+    }
+
+    private fun saveTokenValue(token: String) {
+        viewModelScope.launch {
+            setTokenUseCase("token", token)
         }
     }
 

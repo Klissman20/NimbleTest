@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import com.example.nimbletest.R
@@ -36,7 +37,8 @@ fun Splash() {
             painter = painterResource(id = R.drawable.background),
             contentDescription = "",
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
+            contentScale = ContentScale.FillBounds
         )
         Image(painter = painterResource(id = R.drawable.logo_white), contentDescription = "")
     }

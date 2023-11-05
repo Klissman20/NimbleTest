@@ -82,6 +82,12 @@ dependencies {
     //PagerDots
     implementation ("com.google.accompanist:accompanist-pager:0.22.0-rc")
 
+    //DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.5.0")
+
     //Retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.google.code.gson:gson:2.10.1")
