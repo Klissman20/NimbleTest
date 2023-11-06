@@ -1,4 +1,4 @@
-package com.example.nimbletest
+package com.example.nimbletest.ui
 
 import android.os.Bundle
 import android.view.WindowManager

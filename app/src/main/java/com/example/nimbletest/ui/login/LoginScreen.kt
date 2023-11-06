@@ -49,7 +49,7 @@ import com.example.nimbletest.ui.navigation.AppScreens
 
 @Composable
 fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController) {
-    loginViewModel.onCreate()
+    loginViewModel.onCreate("token")
     Box(
         Modifier
             .fillMaxSize()

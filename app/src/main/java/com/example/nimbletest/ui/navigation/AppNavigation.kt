@@ -29,7 +29,7 @@ fun AppNavigation(){
         }
         composable(AppScreens.HomeScreen.route){
             val viewModel = hiltViewModel<HomeViewModel>()
-            HomeScreen(viewModel)
+            HomeScreen(navController ,viewModel)
         }
     }
 }

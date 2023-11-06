@@ -28,9 +28,6 @@ class LoginViewModel @Inject constructor(
     private val _isLoginEnable = MutableLiveData<Boolean>()
     val isLoginEnable: LiveData<Boolean> = _isLoginEnable
 
-    private val _isAuthenticated = MutableLiveData<Boolean>()
-    val isAuthenticated: LiveData<Boolean> = _isAuthenticated
-
     private val _hasToken = MutableLiveData<Boolean>()
     val hasToken: LiveData<Boolean> = _hasToken
 
@@ -47,29 +44,24 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val result = loginUseCase(email.value!!, password.value!!)
             if (!result.accessToken.isNullOrEmpty()) {
-                saveTokenValue(result.accessToken)
+                savePreferenceValue("token", result.accessToken)
+                savePreferenceValue("refresh_token", result.refreshToken)
+                _hasToken.value =true
             }
         }
     }
-
-    fun onCreate() {
-        getTokenValue()
-    }
-
-    private fun getTokenValue() {
+    fun onCreate(key: String) {
         viewModelScope.launch {
-            getTokenUseCase("token")?.let {
-                _hasToken.value = true
+            getTokenUseCase(key)?.let {
+                if (!it.isNullOrEmpty()) _hasToken.value = true
             }
         }
     }
-
-    private fun saveTokenValue(token: String) {
+    private fun savePreferenceValue(key: String, token: String) {
         viewModelScope.launch {
-            setTokenUseCase("token", token)
+            setTokenUseCase(key, token)
         }
     }
-
     fun onResetPasswordSelected() {
         viewModelScope.launch {
 

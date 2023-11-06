@@ -3,6 +3,8 @@ package com.example.nimbletest.infrastructure.datasources
 import android.util.Log
 import com.example.nimbletest.domain.datasources.NimbleService
 import com.example.nimbletest.infrastructure.model.AuthModel
+import com.example.nimbletest.infrastructure.model.LogOutBody
+import com.example.nimbletest.infrastructure.model.RefreshTokenBody
 import com.example.nimbletest.infrastructure.model.SingInBody
 import com.example.nimbletest.infrastructure.model.SurveyModel
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +49,6 @@ class NimbleServiceImpl @Inject constructor(private val nimbleClient: NimbleClie
                     pageSize = pageSize,
                     auth = authBearer
                 )
-            Log.d("klis", response.body().toString())
             response.body()?.data?.map {
                 SurveyModel(
                     it.attributes.title,
@@ -64,6 +65,25 @@ class NimbleServiceImpl @Inject constructor(private val nimbleClient: NimbleClie
             val response = nimbleClient.signUp()
         }
     }
+
+    override suspend fun logOut(logOutBody: LogOutBody) {
+        withContext(Dispatchers.IO){
+            nimbleClient.logOut(logOutBody)
+        }
+    }
+
+    override suspend fun refreshToken() {
+        withContext(Dispatchers.IO){
+            val refreshTokenBody = RefreshTokenBody (
+                grantType = "",
+                refreshToken = "",
+                clientId = "",
+                clientSecret = ""
+            )
+            nimbleClient.refreshToken(refreshTokenBody)
+        }
+    }
+
 
     private fun generateRandom(length: Int): String {
         val characters =

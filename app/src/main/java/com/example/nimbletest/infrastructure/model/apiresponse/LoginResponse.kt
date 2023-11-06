@@ -1,4 +1,4 @@
-package com.example.nimbletest.infrastructure.apiresponse
+package com.example.nimbletest.infrastructure.model.apiresponse
 
 import com.google.gson.annotations.SerializedName
 

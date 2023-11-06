@@ -7,5 +7,5 @@ class SetTokenUseCase @Inject constructor(
     private val dataStoreRepository: DataStoreRepository
 ) {
     suspend operator fun invoke(key: String, value: String) =
-        dataStoreRepository.setTokenValue(key, value)
+        dataStoreRepository.setPreferenceValue(key, value)
 }

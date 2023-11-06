@@ -1,8 +1,8 @@
 package com.example.nimbletest.core.di
 
 import android.content.Context
-import com.example.nimbletest.infrastructure.datasources.datastore.Preferences
-import com.example.nimbletest.infrastructure.datasources.datastore.PreferencesImpl
+import com.example.nimbletest.infrastructure.datastore.Preferences
+import com.example.nimbletest.infrastructure.datastore.PreferencesImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

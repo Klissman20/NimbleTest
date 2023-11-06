@@ -5,6 +5,7 @@ import com.example.nimbletest.domain.entities.Survey
 import com.example.nimbletest.domain.entities.toDomain
 import com.example.nimbletest.domain.repositories.NimbleRepository
 import com.example.nimbletest.infrastructure.datasources.NimbleServiceImpl
+import com.example.nimbletest.infrastructure.model.LogOutBody
 import javax.inject.Inject
 
 class NimbleRepositoryImpl @Inject constructor(private val api : NimbleServiceImpl) : NimbleRepository{
@@ -15,5 +16,9 @@ class NimbleRepositoryImpl @Inject constructor(private val api : NimbleServiceIm
     override suspend fun getSurveys (pageNumber: String, pageSize: String, auth:String) : List<Survey> {
         val response = api.getSurveys(pageNumber,pageSize, auth)
         return response.map { it.toDomain() }
+    }
+
+    override suspend fun logOut(logOutBody: LogOutBody) {
+        api.logOut(logOutBody)
     }
 }

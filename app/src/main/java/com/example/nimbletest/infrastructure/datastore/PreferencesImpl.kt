@@ -1,4 +1,4 @@
-package com.example.nimbletest.infrastructure.datasources.datastore
+package com.example.nimbletest.infrastructure.datastore
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
@@ -14,15 +14,14 @@ private val Context.dataStore by preferencesDataStore(name = USER_PREFERENCES)
 class PreferencesImpl @Inject constructor(
     private val context: Context
 ): Preferences {
-    override suspend fun setTokenValue(key: String, value: String) {
+    override suspend fun setPreferenceValue(key: String, value: String) {
         val preferenceKey = stringPreferencesKey(key)
         context.dataStore.edit { preferences ->
             preferences[preferenceKey] = value
-
         }
     }
 
-    override suspend fun getTokenValue(key: String): String? {
+    override suspend fun getPreferenceValue(key: String): String? {
         return try {
             val preferenceKey = stringPreferencesKey(key)
             val preferences = context.dataStore.data.first()
@@ -32,4 +31,12 @@ class PreferencesImpl @Inject constructor(
             null
         }
     }
+
+    override suspend fun clearPreferences(key: String) {
+        val preferenceKey = stringPreferencesKey(key)
+        context.dataStore.edit { preferences ->
+            preferences.remove(preferenceKey)
+        }
+    }
+
 }
