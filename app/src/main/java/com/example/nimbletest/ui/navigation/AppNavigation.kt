@@ -1,5 +1,10 @@
 package com.example.nimbletest.ui.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
@@ -13,23 +18,52 @@ import com.example.nimbletest.ui.login.LoginViewModel
 import com.example.nimbletest.ui.splash.view.SplashScreen
 
 @Composable
-fun AppNavigation(){
+fun AppNavigation() {
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = AppScreens.SplashScreen.route){
-        composable(AppScreens.SplashScreen.route){
+    NavHost(navController = navController, startDestination = AppScreens.SplashScreen.route) {
+        composable(AppScreens.SplashScreen.route) {
             SplashScreen(navController)
+
         }
-        composable(AppScreens.LoginScreen.route){
+        composable(AppScreens.LoginScreen.route,
+            exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+            }, popEnterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+            }
+        ) {
             val viewModel = hiltViewModel<LoginViewModel>()
             LoginScreen(loginViewModel = viewModel, navController)
         }
-        composable(AppScreens.ForgotScreen.route){
+        composable(AppScreens.ForgotScreen.route,
+            enterTransition = {
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Left,
+                    animationSpec = tween(700)
+                )
+            }, exitTransition = {
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Right,
+                    animationSpec = tween(700)
+                )
+            }
+        ) {
             val viewModel = hiltViewModel<LoginViewModel>()
             ForgotScreen(navController, viewModel)
         }
-        composable(AppScreens.HomeScreen.route){
+        composable(AppScreens.HomeScreen.route,
+            enterTransition = {
+                EnterTransition.None
+            }
+        ) {
             val viewModel = hiltViewModel<HomeViewModel>()
-            HomeScreen(navController ,viewModel)
+            HomeScreen(navController, viewModel)
         }
     }
 }

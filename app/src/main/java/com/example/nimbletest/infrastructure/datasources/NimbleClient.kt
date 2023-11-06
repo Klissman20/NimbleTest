@@ -5,6 +5,7 @@ import com.example.nimbletest.infrastructure.model.RefreshTokenBody
 import com.example.nimbletest.infrastructure.model.apiresponse.LoginResponse
 import com.example.nimbletest.infrastructure.model.apiresponse.SurveyResponse
 import com.example.nimbletest.infrastructure.model.SingInBody
+import com.example.nimbletest.infrastructure.model.apiresponse.UserResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -33,5 +34,9 @@ interface NimbleClient {
     suspend fun logOut(@Body body: LogOutBody)
 
     @POST("api/v1/oauth/token")
-    suspend fun refreshToken(@Body body: RefreshTokenBody)
+    suspend fun refreshToken(@Body body: RefreshTokenBody): Response<LoginResponse>
+
+    @GET("api/v1/me")
+    suspend fun getUserData(@Header("Authorization") auth: String): Response<UserResponse>
+
 }

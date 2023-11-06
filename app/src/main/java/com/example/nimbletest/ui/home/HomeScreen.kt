@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -44,17 +45,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.nimbletest.ui.login.firaSansFamily
-import com.example.nimbletest.R
 import com.example.nimbletest.domain.entities.Survey
+import com.example.nimbletest.domain.entities.User
 import com.example.nimbletest.ui.navigation.AppScreens
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -188,125 +191,136 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
     val surveySelected = remember {
         mutableStateOf(surveyList[0])
     }
+
+    val userData by homeViewModel.userData.observeAsState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    ModalNavigationDrawer(
-        modifier = Modifier,
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet {
-                DrawerMenu(homeViewModel, navController, scope)
-            }
-        },
-        gesturesEnabled = true,
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
+
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl ) {
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            drawerContent = {
+                ModalDrawerSheet(drawerShape = RectangleShape) {
+                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr ) {
+                        DrawerMenu(homeViewModel, navController, scope, userData)
+                    }
+                }
+            },
+            gesturesEnabled = true,
         ) {
-            HorizontalPager(count = surveyList.size, state = pagerState) { index ->
-                when (surveyList[index].title) {
-                    "Scarlett Bangkok" -> surveySelected.value = surveyList[0]
-                    "ibis Bangkok Riverside" -> surveySelected.value = surveyList[1]
-                    "21 on Rajah" -> surveySelected.value = surveyList[2]
-                    "Let's Chick" -> surveySelected.value = surveyList[3]
-                    "Health Land Spa" -> surveySelected.value = surveyList[4]
-                    "Sunset Bar" -> surveySelected.value = surveyList[5]
-                    "Rice Paper Scissors" -> surveySelected.value = surveyList[6]
-                    "Shabushi  Buffet" -> surveySelected.value = surveyList[7]
-                    "Supersports" -> surveySelected.value = surveyList[8]
-                    "Beach Republic Guest Checkout DEMO" -> surveySelected.value = surveyList[9]
-                    "Oishi Buffet" -> surveySelected.value = surveyList[10]
-                    "Segafredo " -> surveySelected.value = surveyList[11]
-                    "Tops Super Store" -> surveySelected.value = surveyList[12]
-                    "Veloce Lounge" -> surveySelected.value = surveyList[13]
-                    "Seafood Market" -> surveySelected.value = surveyList[14]
-                    "Tree Tops Australia" -> surveySelected.value = surveyList[15]
-                    "Westside Lounge" -> surveySelected.value = surveyList[16]
-                    "Alpha Ouzeri" -> surveySelected.value = surveyList[17]
-                    "Aspira (Main)" -> surveySelected.value = surveyList[18]
-                    "Punjab Grill" -> surveySelected.value = surveyList[19]
-                }
-                SurveyView(surveySelected.value, pagerState, index)
-            }
-            Row(
-                modifier = Modifier
-                    .padding(top = 61.dp, start = 20.dp)
-                    .fillMaxWidth()
-            ) {
-                Column {
-                    Text(
-                        text = "MONDAY, JUNE 15",
-                        fontFamily = firaSansFamily,
-                        fontWeight = FontWeight.W800,
-                        color = Color.White,
-                        fontSize = 13.sp,
-                        lineHeight = 18.sp
-                    )
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Text(
-                        text = "TODAY",
-                        fontFamily = firaSansFamily,
-                        fontWeight = FontWeight.W800,
-                        color = Color.White,
-                        fontSize = 34.sp,
-                        lineHeight = 41.sp
-                    )
-                }
-                Column(
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr ) {
+                Box(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 20.dp, top = 15.dp),
-                    horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.Bottom
+                        .fillMaxSize()
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.oval),
-                        contentDescription = "",
+                    HorizontalPager(count = surveyList.size, state = pagerState) { index ->
+                        when (surveyList[index].title) {
+                            "Scarlett Bangkok" -> surveySelected.value = surveyList[0]
+                            "ibis Bangkok Riverside" -> surveySelected.value = surveyList[1]
+                            "21 on Rajah" -> surveySelected.value = surveyList[2]
+                            "Let's Chick" -> surveySelected.value = surveyList[3]
+                            "Health Land Spa" -> surveySelected.value = surveyList[4]
+                            "Sunset Bar" -> surveySelected.value = surveyList[5]
+                            "Rice Paper Scissors" -> surveySelected.value = surveyList[6]
+                            "Shabushi  Buffet" -> surveySelected.value = surveyList[7]
+                            "Supersports" -> surveySelected.value = surveyList[8]
+                            "Beach Republic Guest Checkout DEMO" -> surveySelected.value =
+                                surveyList[9]
+
+                            "Oishi Buffet" -> surveySelected.value = surveyList[10]
+                            "Segafredo " -> surveySelected.value = surveyList[11]
+                            "Tops Super Store" -> surveySelected.value = surveyList[12]
+                            "Veloce Lounge" -> surveySelected.value = surveyList[13]
+                            "Seafood Market" -> surveySelected.value = surveyList[14]
+                            "Tree Tops Australia" -> surveySelected.value = surveyList[15]
+                            "Westside Lounge" -> surveySelected.value = surveyList[16]
+                            "Alpha Ouzeri" -> surveySelected.value = surveyList[17]
+                            "Aspira (Main)" -> surveySelected.value = surveyList[18]
+                            "Punjab Grill" -> surveySelected.value = surveyList[19]
+                        }
+                        SurveyView(surveySelected.value, pagerState, index)
+                    }
+                    Row(
                         modifier = Modifier
-                            .size(36.dp)
-                            .clickable {
-                                scope.launch {
-                                    drawerState.apply {
-                                        if (isClosed) open() else close()
+                            .padding(top = 61.dp, start = 20.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Column {
+                            Text(
+                                text = "MONDAY, JUNE 15",
+                                fontFamily = firaSansFamily,
+                                fontWeight = FontWeight.W800,
+                                color = Color.White,
+                                fontSize = 13.sp,
+                                lineHeight = 18.sp
+                            )
+                            Spacer(modifier = Modifier.size(10.dp))
+                            Text(
+                                text = "TODAY",
+                                fontFamily = firaSansFamily,
+                                fontWeight = FontWeight.W800,
+                                color = Color.White,
+                                fontSize = 34.sp,
+                                lineHeight = 41.sp
+                            )
+                        }
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(end = 20.dp, top = 15.dp),
+                            horizontalAlignment = Alignment.End,
+                            verticalArrangement = Arrangement.Bottom
+                        ) {
+                            Image(
+                                painter = rememberAsyncImagePainter(userData?.avatarURL),
+                                contentDescription = "",
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .clickable {
+                                        scope.launch {
+                                            drawerState.apply {
+                                                if (isClosed) open() else close()
+                                            }
+                                        }
                                     }
-                                }
-                            }
-                    )
+                            )
+                        }
+                    }
+                    Row(
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(bottom = 150.dp, start = 20.dp, end = 20.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Column {
+                            DotsIndicator(
+                                totalDots = surveyList.size,
+                                selectedIndex = pagerState.currentPage,
+                                selectedColor = Color.White,
+                                unSelectedColor = Color.LightGray,
+                                pagerState
+                            )
+                            Spacer(modifier = Modifier.size(20.dp))
+                        }
+                    }
+                    FloatingActionButton(
+                        onClick = { /*TODO*/ },
+                        containerColor = Color.White,
+                        modifier = Modifier
+                            .align(
+                                Alignment.BottomEnd
+                            )
+                            .padding(end = 40.dp, bottom = 50.dp),
+                        shape = CircleShape
+                    ) {
+                        Icon(
+                            Icons.Filled.KeyboardArrowRight,
+                            "Survey's Detail",
+                            modifier = Modifier.size(40.dp)
+                        )
+                    }
                 }
-            }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(bottom = 150.dp, start = 20.dp, end = 20.dp)
-                    .fillMaxWidth()
-            ) {
-                Column {
-                    DotsIndicator(
-                        totalDots = surveyList.size,
-                        selectedIndex = pagerState.currentPage,
-                        selectedColor = Color.White,
-                        unSelectedColor = Color.LightGray,
-                        pagerState
-                    )
-                    Spacer(modifier = Modifier.size(20.dp))
-                }
-            }
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                containerColor = Color.White,
-                modifier = Modifier
-                    .align(
-                        Alignment.BottomEnd
-                    )
-                    .padding(end = 40.dp, bottom = 50.dp),
-                shape = CircleShape
-            ) {
-                Icon(
-                    Icons.Filled.KeyboardArrowRight,
-                    "Survey's Detail",
-                    modifier = Modifier.size(40.dp)
-                )
             }
         }
     }
@@ -438,7 +452,8 @@ fun DotsIndicator(
 fun DrawerMenu(
     homeViewModel: HomeViewModel,
     navController: NavHostController,
-    scope: CoroutineScope
+    scope: CoroutineScope,
+    userData: User?
 ) {
     Column(
         modifier = Modifier
@@ -453,18 +468,19 @@ fun DrawerMenu(
                 .padding(top = 80.dp)
         ) {
             Text(
-                text = "nombre", fontFamily = firaSansFamily,
+                text = userData?.name!!, fontFamily = firaSansFamily,
                 fontWeight = FontWeight.W800,
                 color = Color.White,
                 fontSize = 34.sp,
                 lineHeight = 41.sp
             )
             Image(
-                painter = painterResource(id = R.drawable.oval),
+                painter = rememberAsyncImagePainter(userData.avatarURL),
                 contentDescription = "",
                 modifier = Modifier
+                    .clip(CircleShape)
                     .size(36.dp)
-                    .weight(1f),
+                    .weight(1f ,true),
                 alignment = Alignment.BottomEnd
             )
         }

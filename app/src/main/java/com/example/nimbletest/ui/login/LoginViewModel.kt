@@ -44,8 +44,8 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val result = loginUseCase(email.value!!, password.value!!)
             if (!result.accessToken.isNullOrEmpty()) {
-                savePreferenceValue("token", result.accessToken)
-                savePreferenceValue("refresh_token", result.refreshToken)
+                setTokenUseCase("token", result.accessToken)
+                setTokenUseCase("refresh_token", result.refreshToken)
                 _hasToken.value =true
             }
         }
@@ -55,11 +55,6 @@ class LoginViewModel @Inject constructor(
             getTokenUseCase(key)?.let {
                 if (!it.isNullOrEmpty()) _hasToken.value = true
             }
-        }
-    }
-    private fun savePreferenceValue(key: String, token: String) {
-        viewModelScope.launch {
-            setTokenUseCase(key, token)
         }
     }
     fun onResetPasswordSelected() {
