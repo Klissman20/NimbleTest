@@ -67,8 +67,6 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
 import kotlin.math.absoluteValue
 
 @Composable
@@ -115,33 +113,7 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
                         .fillMaxSize()
                 ) {
                     HorizontalPager(count = surveyList.size, state = pagerState) { index ->
-
-                        //surveySelected.value = surveyList[0]
-
-                        when (surveyList[index].title) {
-                            "Scarlett Bangkok" -> surveySelected.value = surveyList[0]
-                            "ibis Bangkok Riverside" -> surveySelected.value = surveyList[1]
-                            "21 on Rajah" -> surveySelected.value = surveyList[2]
-                            "Let's Chick" -> surveySelected.value = surveyList[3]
-                            "Health Land Spa" -> surveySelected.value = surveyList[4]
-                            "Sunset Bar" -> surveySelected.value = surveyList[5]
-                            "Rice Paper Scissors" -> surveySelected.value = surveyList[6]
-                            "Shabushi  Buffet" -> surveySelected.value = surveyList[7]
-                            "Supersports" -> surveySelected.value = surveyList[8]
-                            "Beach Republic Guest Checkout DEMO" -> surveySelected.value =
-                                surveyList[9]
-
-                            "Oishi Buffet" -> surveySelected.value = surveyList[10]
-                            "Segafredo " -> surveySelected.value = surveyList[11]
-                            "Tops Super Store" -> surveySelected.value = surveyList[12]
-                            "Veloce Lounge" -> surveySelected.value = surveyList[13]
-                            "Seafood Market" -> surveySelected.value = surveyList[14]
-                            "Tree Tops Australia" -> surveySelected.value = surveyList[15]
-                            "Westside Lounge" -> surveySelected.value = surveyList[16]
-                            "Alpha Ouzeri" -> surveySelected.value = surveyList[17]
-                            "Aspira (Main)" -> surveySelected.value = surveyList[18]
-                            "Punjab Grill" -> surveySelected.value = surveyList[19]
-                        }
+                        surveySelected.value = surveyList[index]
                         SurveyView(navController, surveySelected.value, pagerState, index)
                     }
                     Row(
