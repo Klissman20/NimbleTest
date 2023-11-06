@@ -10,7 +10,7 @@ interface NimbleService {
     suspend fun signIn(email: String, password: String): AuthModel
     suspend fun getSurveys(pageNumber: String, pageSize: String, token: String): List<SurveyModel>
     suspend fun signUp(email: String, password: String)
-    suspend fun logOut(logOutBody: LogOutBody)
-    suspend fun refreshToken(refreshTokenBody: RefreshTokenBody) : AuthModel
+    suspend fun logOut(token: String)
+    suspend fun refreshToken(refreshToken: String) : AuthModel
     suspend fun getUserData(token: String) : UserModel
 }

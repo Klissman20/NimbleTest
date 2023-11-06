@@ -20,12 +20,12 @@ class NimbleRepositoryImpl @Inject constructor(private val api : NimbleServiceIm
         return response.map { it.toDomain() }
     }
 
-    override suspend fun logOut(logOutBody: LogOutBody) {
-        api.logOut(logOutBody)
+    override suspend fun logOut(token: String) {
+        api.logOut(token)
     }
 
-    override suspend fun refreshToken(refreshTokenBody: RefreshTokenBody) : Auth {
-        return api.refreshToken(refreshTokenBody).toDomain()
+    override suspend fun refreshToken(refreshToken: String) : Auth {
+        return api.refreshToken(refreshToken).toDomain()
     }
 
     override suspend fun getUserData(token: String): User {

@@ -15,6 +15,8 @@ import com.example.nimbletest.domain.entities.Survey
 import com.example.nimbletest.domain.entities.User
 import com.example.nimbletest.infrastructure.model.LogOutBody
 import com.example.nimbletest.infrastructure.model.RefreshTokenBody
+import com.example.nimbletest.utils.USER_PREFERENCE_REFRESH_TOKEN
+import com.example.nimbletest.utils.USER_PREFERENCE_TOKEN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -46,7 +48,7 @@ class HomeViewModel @Inject constructor(
     fun onCreate() {
         viewModelScope.launch {
 
-            getTokenUseCase("token")?.let {
+            getTokenUseCase(USER_PREFERENCE_TOKEN)?.let {
                 _token.value = it
             }
             val result = getSurveysUseCase("1","4", token.value!!)
@@ -57,21 +59,16 @@ class HomeViewModel @Inject constructor(
                 }
                 _isLoading.value = false
             }else {
-                val refreshToken = getTokenUseCase("refresh_token")
-                val refreshTokenBody = RefreshTokenBody (
-                    grantType = "refresh_token",
-                    refreshToken = refreshToken ?: "",
-                    clientId = "6GbE8dhoz519l2N_F99StqoOs6Tcmm1rXgda4q__rIw",
-                    clientSecret = "_ayfIm7BeUAhx2W1OUqi20fwO3uNxfo1QstyKlFCgHw"
-                )
-                var result = refreshTokenUseCase(refreshTokenBody)
+                val refreshToken = getTokenUseCase(USER_PREFERENCE_REFRESH_TOKEN)
+
+                val result = refreshTokenUseCase(refreshToken!!)
                 if (!result.accessToken.isNullOrEmpty()) {
-                    setTokenUseCase("token", result.accessToken)
-                    setTokenUseCase("refresh_token", result.refreshToken)
+                    setTokenUseCase(USER_PREFERENCE_TOKEN, result.accessToken)
+                    setTokenUseCase(USER_PREFERENCE_REFRESH_TOKEN, result.refreshToken)
                     delay(500)
 
                 }
-                getTokenUseCase("token")?.let {
+                getTokenUseCase(USER_PREFERENCE_TOKEN)?.let {
                     _token.value = it
                 }
                 val resultSurvey = getSurveysUseCase("1","4", token.value!!)
@@ -86,12 +83,7 @@ class HomeViewModel @Inject constructor(
 
     fun logOut(){
         viewModelScope.launch {
-            val logOutBody = LogOutBody(
-                token = token.value!!,
-                clientId = "6GbE8dhoz519l2N_F99StqoOs6Tcmm1rXgda4q__rIw",
-                clientSecret = "_ayfIm7BeUAhx2W1OUqi20fwO3uNxfo1QstyKlFCgHw"
-            )
-            logOutUseCase(logOutBody)
+            logOutUseCase(token.value!!)
             clearPreferencesUseCase("token")
             clearPreferencesUseCase("refresh_token")
         }

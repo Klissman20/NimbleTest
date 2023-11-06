@@ -7,5 +7,5 @@ import javax.inject.Inject
 class LogOutUseCase @Inject constructor(
     private val repository: NimbleRepositoryImpl
 ) {
-    suspend operator fun invoke(logOutBody: LogOutBody) = repository.logOut(logOutBody)
+    suspend operator fun invoke(token: String) = repository.logOut(token)
 }

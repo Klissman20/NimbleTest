@@ -8,6 +8,11 @@ import com.example.nimbletest.infrastructure.model.RefreshTokenBody
 import com.example.nimbletest.infrastructure.model.SingInBody
 import com.example.nimbletest.infrastructure.model.SurveyModel
 import com.example.nimbletest.infrastructure.model.UserModel
+import com.example.nimbletest.utils.BEARER
+import com.example.nimbletest.utils.CLIENT_ID
+import com.example.nimbletest.utils.CLIENT_SECRET
+import com.example.nimbletest.utils.GRANT_TYPE_P
+import com.example.nimbletest.utils.GRANT_TYPE_R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,11 +27,11 @@ class NimbleServiceImpl @Inject constructor(private val nimbleClient: NimbleClie
 
             val singInBody =
                 SingInBody(
-                    grantType = "password",
+                    grantType = GRANT_TYPE_P,
                     email = email,
                     password = password,
-                    clientId = "6GbE8dhoz519l2N_F99StqoOs6Tcmm1rXgda4q__rIw",
-                    clientSecret = "_ayfIm7BeUAhx2W1OUqi20fwO3uNxfo1QstyKlFCgHw"
+                    clientId = CLIENT_ID,
+                    clientSecret = CLIENT_SECRET
                 )
 
             val response = nimbleClient.signIn(singInBody)
@@ -47,7 +52,7 @@ class NimbleServiceImpl @Inject constructor(private val nimbleClient: NimbleClie
     ): List<SurveyModel> {
         return withContext(Dispatchers.IO) {
 
-            val authBearer = "Bearer $token"
+        val authBearer = BEARER + token
 
             val response =
                 nimbleClient.getSurveys(
@@ -67,19 +72,29 @@ class NimbleServiceImpl @Inject constructor(private val nimbleClient: NimbleClie
 
     override suspend fun signUp(email: String, password: String) {
         withContext(Dispatchers.IO) {
-
             val response = nimbleClient.signUp()
         }
     }
 
-    override suspend fun logOut(logOutBody: LogOutBody) {
+    override suspend fun logOut(token: String) {
         withContext(Dispatchers.IO) {
+            val logOutBody = LogOutBody(
+                token = token,
+                clientId = CLIENT_ID,
+                clientSecret = CLIENT_SECRET
+            )
             nimbleClient.logOut(logOutBody)
         }
     }
 
-    override suspend fun refreshToken(refreshTokenBody: RefreshTokenBody): AuthModel {
+    override suspend fun refreshToken(refreshToken: String): AuthModel {
         return withContext(Dispatchers.IO) {
+            val refreshTokenBody = RefreshTokenBody (
+                grantType = GRANT_TYPE_R,
+                refreshToken = refreshToken,
+                clientId = CLIENT_ID,
+                clientSecret = CLIENT_SECRET
+            )
             val response = nimbleClient.refreshToken(refreshTokenBody)
             val authAttribute = response.body()?.data?.attributes
             AuthModel(
@@ -94,7 +109,7 @@ class NimbleServiceImpl @Inject constructor(private val nimbleClient: NimbleClie
     override suspend fun getUserData(token: String): UserModel {
         return withContext(Dispatchers.IO) {
 
-            val authBearer = "Bearer $token"
+            val authBearer = BEARER + token
 
             val userResponse = nimbleClient.getUserData(authBearer)
             val userAttributes = userResponse.body()?.data?.attributes

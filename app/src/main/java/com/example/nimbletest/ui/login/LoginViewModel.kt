@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.nimbletest.domain.GetTokenUseCase
 import com.example.nimbletest.domain.LoginUseCase
 import com.example.nimbletest.domain.SetTokenUseCase
+import com.example.nimbletest.utils.USER_PREFERENCE_REFRESH_TOKEN
+import com.example.nimbletest.utils.USER_PREFERENCE_TOKEN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -44,8 +46,8 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val result = loginUseCase(email.value!!, password.value!!)
             if (!result.accessToken.isNullOrEmpty()) {
-                setTokenUseCase("token", result.accessToken)
-                setTokenUseCase("refresh_token", result.refreshToken)
+                setTokenUseCase(USER_PREFERENCE_TOKEN, result.accessToken)
+                setTokenUseCase(USER_PREFERENCE_REFRESH_TOKEN, result.refreshToken)
                 _hasToken.value =true
             }
         }

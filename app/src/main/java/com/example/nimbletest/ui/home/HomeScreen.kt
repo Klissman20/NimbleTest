@@ -247,7 +247,7 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
                     ) {
                         Column {
                             Text(
-                                text = "MONDAY, JUNE 15",
+                                text = "MONDAY, NOVEMBER 6",
                                 fontFamily = firaSansFamily,
                                 fontWeight = FontWeight.W800,
                                 color = Color.White,
@@ -311,7 +311,7 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
                             .align(
                                 Alignment.BottomEnd
                             )
-                            .padding(end = 40.dp, bottom = 50.dp),
+                            .padding(end = 40.dp, bottom = 60.dp),
                         shape = CircleShape
                     ) {
                         Icon(
