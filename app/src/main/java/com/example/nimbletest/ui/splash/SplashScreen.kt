@@ -1,4 +1,4 @@
-package com.example.nimbletest.ui.splash.view
+package com.example.nimbletest.ui.splash
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -43,9 +43,3 @@ fun Splash() {
         Image(painter = painterResource(id = R.drawable.logo_white), contentDescription = "")
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun SplashScreenPreview() {
-//    SplashScreen(navController)
-//}

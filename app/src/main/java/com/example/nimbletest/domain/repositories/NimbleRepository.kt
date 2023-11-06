@@ -3,8 +3,6 @@ package com.example.nimbletest.domain.repositories
 import com.example.nimbletest.domain.entities.Auth
 import com.example.nimbletest.domain.entities.Survey
 import com.example.nimbletest.domain.entities.User
-import com.example.nimbletest.infrastructure.model.LogOutBody
-import com.example.nimbletest.infrastructure.model.RefreshTokenBody
 
 interface NimbleRepository {
     suspend fun signIn(email: String, password: String): Auth
@@ -12,4 +10,5 @@ interface NimbleRepository {
     suspend fun logOut(token: String)
     suspend fun refreshToken(refreshToken: String) : Auth
     suspend fun getUserData(token: String) : User
+    suspend fun forgotPassword(email: String)
 }

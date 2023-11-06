@@ -390,7 +390,7 @@ fun DrawerMenu(
         TextButton(onClick = {
             scope.launch {
                 homeViewModel.logOut()
-                delay(1000)
+                delay(1500)
                 navController.popBackStack()
                 navController.navigate(AppScreens.LoginScreen.route)
             }

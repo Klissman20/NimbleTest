@@ -1,5 +1,9 @@
 package com.example.nimbletest.ui.forgot
 
+import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,18 +40,34 @@ import com.example.nimbletest.ui.login.ImageLogo
 import com.example.nimbletest.ui.login.LoginViewModel
 import com.example.nimbletest.ui.login.firaSansFamily
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.platform.LocalContext
+import com.example.nimbletest.NotificationService
 import com.example.nimbletest.R
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
+@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun ForgotScreen(navController: NavController, loginViewModel: LoginViewModel) {
     ForgotView(navController, loginViewModel)
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.M)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun ForgotView(navController: NavController, loginViewModel: LoginViewModel) {
 
     val email: String by loginViewModel.email.observeAsState(initial = "")
+
+    val postNotificationPermission =
+        rememberPermissionState(permission = Manifest.permission.POST_NOTIFICATIONS)
+    val notificationService = NotificationService(LocalContext.current)
+    LaunchedEffect(key1 = true) {
+        if (!postNotificationPermission.status.isGranted) {
+            postNotificationPermission.launchPermissionRequest()
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         CoverBackground(R.drawable.background)
@@ -93,19 +114,23 @@ fun ForgotView(navController: NavController, loginViewModel: LoginViewModel) {
         )
         Column(Modifier.align(Alignment.Center)) {
             Email(email) {
-                loginViewModel.onLoginChanged(email = it,"")
+                loginViewModel.onLoginChanged(email = it, "")
             }
             Spacer(modifier = Modifier.size(20.dp))
-            ResetButton(loginViewModel)
+            ResetButton(loginViewModel, notificationService)
             Spacer(modifier = Modifier.size(8.dp))
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.M)
 @Composable
-fun ResetButton(loginViewModel: LoginViewModel) {
+fun ResetButton(loginViewModel: LoginViewModel, notificationService: NotificationService) {
     Button(
-        onClick = { loginViewModel.onResetPasswordSelected() },
+        onClick = {
+            loginViewModel.onResetPasswordSelected()
+            notificationService.showBasicNotification()
+        },
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 24.dp)
@@ -126,3 +151,28 @@ fun ResetButton(loginViewModel: LoginViewModel) {
         )
     }
 }
+
+@Composable
+fun NotificationView() {
+
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Text(
+            "Notifications in Jetpack Compose",
+            modifier = Modifier.padding(bottom = 100.dp)
+        )
+
+        // simple notification button
+        Button(onClick = {
+
+        }, modifier = Modifier.padding(top = 16.dp)) {
+            Text(text = "Simple Notification")
+        }
+    }
+}
+
+

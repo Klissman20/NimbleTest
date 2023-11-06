@@ -1,5 +1,7 @@
 package com.example.nimbletest.ui.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.tween
@@ -18,8 +20,9 @@ import com.example.nimbletest.ui.home.HomeScreen
 import com.example.nimbletest.ui.home.HomeViewModel
 import com.example.nimbletest.ui.login.LoginScreen
 import com.example.nimbletest.ui.login.LoginViewModel
-import com.example.nimbletest.ui.splash.view.SplashScreen
+import com.example.nimbletest.ui.splash.SplashScreen
 
+@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()

@@ -6,8 +6,6 @@ import com.example.nimbletest.domain.entities.User
 import com.example.nimbletest.domain.entities.toDomain
 import com.example.nimbletest.domain.repositories.NimbleRepository
 import com.example.nimbletest.infrastructure.datasources.NimbleServiceImpl
-import com.example.nimbletest.infrastructure.model.LogOutBody
-import com.example.nimbletest.infrastructure.model.RefreshTokenBody
 import javax.inject.Inject
 
 class NimbleRepositoryImpl @Inject constructor(private val api : NimbleServiceImpl) : NimbleRepository{
@@ -30,5 +28,9 @@ class NimbleRepositoryImpl @Inject constructor(private val api : NimbleServiceIm
 
     override suspend fun getUserData(token: String): User {
         return api.getUserData(token).toDomain()
+    }
+
+    override suspend fun forgotPassword(email: String) {
+        api.forgotPassword(email)
     }
 }

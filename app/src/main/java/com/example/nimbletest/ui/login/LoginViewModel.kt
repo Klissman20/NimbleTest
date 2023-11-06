@@ -1,10 +1,14 @@
 package com.example.nimbletest.ui.login
 
+import android.os.Build
 import android.util.Patterns
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nimbletest.NotificationService
+import com.example.nimbletest.domain.ForgotPasswordUseCase
 import com.example.nimbletest.domain.GetTokenUseCase
 import com.example.nimbletest.domain.LoginUseCase
 import com.example.nimbletest.domain.SetTokenUseCase
@@ -18,7 +22,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val getTokenUseCase: GetTokenUseCase,
-    private val setTokenUseCase: SetTokenUseCase
+    private val setTokenUseCase: SetTokenUseCase,
+    private val forgotPasswordUseCase: ForgotPasswordUseCase
 ) : ViewModel() {
 
     private val _email = MutableLiveData<String>()
@@ -61,7 +66,7 @@ class LoginViewModel @Inject constructor(
     }
     fun onResetPasswordSelected() {
         viewModelScope.launch {
-
+            forgotPasswordUseCase(email.value ?: "")
         }
     }
 }

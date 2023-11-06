@@ -74,9 +74,11 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     //Navigation
     implementation("androidx.navigation:navigation-compose:2.7.5")
+    //Permissions
+    implementation("com.google.accompanist:accompanist-permissions:0.32.0")
 
     //MVVM
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation ("androidx.compose.runtime:runtime-livedata:1.5.4")
 

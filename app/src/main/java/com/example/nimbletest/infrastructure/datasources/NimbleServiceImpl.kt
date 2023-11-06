@@ -1,13 +1,14 @@
 package com.example.nimbletest.infrastructure.datasources
 
-import android.util.Log
 import com.example.nimbletest.domain.datasources.NimbleService
 import com.example.nimbletest.infrastructure.model.AuthModel
-import com.example.nimbletest.infrastructure.model.LogOutBody
-import com.example.nimbletest.infrastructure.model.RefreshTokenBody
-import com.example.nimbletest.infrastructure.model.SingInBody
+import com.example.nimbletest.infrastructure.model.bodyqueries.LogOutBody
+import com.example.nimbletest.infrastructure.model.bodyqueries.RefreshTokenBody
+import com.example.nimbletest.infrastructure.model.bodyqueries.SingInBody
 import com.example.nimbletest.infrastructure.model.SurveyModel
 import com.example.nimbletest.infrastructure.model.UserModel
+import com.example.nimbletest.infrastructure.model.bodyqueries.ForgotBody
+import com.example.nimbletest.infrastructure.model.bodyqueries.User
 import com.example.nimbletest.utils.BEARER
 import com.example.nimbletest.utils.CLIENT_ID
 import com.example.nimbletest.utils.CLIENT_SECRET
@@ -72,7 +73,7 @@ class NimbleServiceImpl @Inject constructor(private val nimbleClient: NimbleClie
 
     override suspend fun signUp(email: String, password: String) {
         withContext(Dispatchers.IO) {
-            val response = nimbleClient.signUp()
+            nimbleClient.signUp()
         }
     }
 
@@ -119,6 +120,15 @@ class NimbleServiceImpl @Inject constructor(private val nimbleClient: NimbleClie
                 avatarURL = userAttributes?.avatarURL ?: ""
             )
         }
+    }
+
+    override suspend fun forgotPassword(email: String) {
+        val forgotBody = ForgotBody (
+            user =  User(email),
+            clientID = CLIENT_ID,
+            clientSecret = CLIENT_SECRET
+        )
+        nimbleClient.forgotPassword(forgotBody)
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.nimbletest.infrastructure.model
+package com.example.nimbletest.infrastructure.model.bodyqueries
 
 import com.google.gson.annotations.SerializedName
 

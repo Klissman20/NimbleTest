@@ -13,8 +13,6 @@ import com.example.nimbletest.domain.RefreshTokenUseCase
 import com.example.nimbletest.domain.SetTokenUseCase
 import com.example.nimbletest.domain.entities.Survey
 import com.example.nimbletest.domain.entities.User
-import com.example.nimbletest.infrastructure.model.LogOutBody
-import com.example.nimbletest.infrastructure.model.RefreshTokenBody
 import com.example.nimbletest.utils.USER_PREFERENCE_REFRESH_TOKEN
 import com.example.nimbletest.utils.USER_PREFERENCE_TOKEN
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,6 +40,9 @@ class HomeViewModel @Inject constructor(
     private val _token = MutableLiveData<String>()
     private val token : LiveData<String> = _token
 
+    private val _refreshToken = MutableLiveData<String>()
+    private val refreshToken : LiveData<String> = _refreshToken
+
     private val _userData = MutableLiveData<User>()
     val userData : LiveData<User> = _userData
 
@@ -59,9 +60,11 @@ class HomeViewModel @Inject constructor(
                 }
                 _isLoading.value = false
             }else {
-                val refreshToken = getTokenUseCase(USER_PREFERENCE_REFRESH_TOKEN)
+                getTokenUseCase(USER_PREFERENCE_REFRESH_TOKEN)?.let {
+                    _refreshToken.value = it
+                }
 
-                val result = refreshTokenUseCase(refreshToken!!)
+                val result = refreshTokenUseCase(refreshToken.value ?: "")
                 if (!result.accessToken.isNullOrEmpty()) {
                     setTokenUseCase(USER_PREFERENCE_TOKEN, result.accessToken)
                     setTokenUseCase(USER_PREFERENCE_REFRESH_TOKEN, result.refreshToken)
@@ -84,8 +87,8 @@ class HomeViewModel @Inject constructor(
     fun logOut(){
         viewModelScope.launch {
             logOutUseCase(token.value!!)
-            clearPreferencesUseCase("token")
-            clearPreferencesUseCase("refresh_token")
+            clearPreferencesUseCase(USER_PREFERENCE_TOKEN)
+            clearPreferencesUseCase(USER_PREFERENCE_REFRESH_TOKEN)
         }
     }
 
