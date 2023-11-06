@@ -38,10 +38,10 @@ class HomeViewModel @Inject constructor(
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _token = MutableLiveData<String>()
-    private val token : LiveData<String> = _token
+    val token : LiveData<String> = _token
 
     private val _refreshToken = MutableLiveData<String>()
-    private val refreshToken : LiveData<String> = _refreshToken
+    val refreshToken : LiveData<String> = _refreshToken
 
     private val _userData = MutableLiveData<User>()
     val userData : LiveData<User> = _userData

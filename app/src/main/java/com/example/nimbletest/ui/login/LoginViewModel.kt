@@ -1,13 +1,10 @@
 package com.example.nimbletest.ui.login
 
-import android.os.Build
-import android.util.Patterns
-import androidx.annotation.RequiresApi
+import androidx.core.util.PatternsCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nimbletest.NotificationService
 import com.example.nimbletest.domain.ForgotPasswordUseCase
 import com.example.nimbletest.domain.GetTokenUseCase
 import com.example.nimbletest.domain.LoginUseCase
@@ -45,7 +42,7 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun enableLogin(email: String /*password: String*/): Boolean =
-        Patterns.EMAIL_ADDRESS.matcher(email).matches() //&& password.length > 6
+        PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() //&& password.length > 6
 
     fun onLoginSelected() {
         viewModelScope.launch {
@@ -53,7 +50,7 @@ class LoginViewModel @Inject constructor(
             if (!result.accessToken.isNullOrEmpty()) {
                 setTokenUseCase(USER_PREFERENCE_TOKEN, result.accessToken)
                 setTokenUseCase(USER_PREFERENCE_REFRESH_TOKEN, result.refreshToken)
-                _hasToken.value =true
+                _hasToken.value = true
             }
         }
     }
