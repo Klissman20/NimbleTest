@@ -28,118 +28,109 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ShimmerLoading(
-    isLoading: Boolean,
-    contentAfterLoading: @Composable () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    if (isLoading) {
-
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .background(Color.Black),
-        ) {
-            Row(modifier = Modifier
+fun ShimmerLoading() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+    ) {
+        Row(
+            modifier = Modifier
                 .padding(top = 61.dp, start = 20.dp)
-                .fillMaxWidth()) {
+                .fillMaxWidth()
+        ) {
 
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .width(117.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(90.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                }
-
-                Column(
+            Column {
+                Box(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 20.dp, top = 15.dp),
-                    horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                }
+                        .width(117.dp)
+                        .height(20.dp)
+                        .clip(CircleShape)
+                        .shimmerEffect()
+                )
+                Spacer(modifier = Modifier.size(10.dp))
+                Box(
+                    modifier = Modifier
+                        .width(90.dp)
+                        .height(20.dp)
+                        .clip(CircleShape)
+                        .shimmerEffect()
+                )
+            }
 
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(end = 20.dp, top = 15.dp),
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .clip(CircleShape)
+                        .shimmerEffect()
+                )
+            }
 
-            }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(bottom = 130.dp, start = 20.dp)
-                    .fillMaxWidth()
-            ) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .width(40.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.size(20.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(250.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(bottom = 60.dp, start = 20.dp)
-            ) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .width(350.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(200.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                }
-            }
 
         }
+        Row(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(bottom = 130.dp, start = 20.dp)
+                .fillMaxWidth()
+        ) {
+            Column {
+                Box(
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(20.dp)
+                        .clip(CircleShape)
+                        .shimmerEffect()
+                )
+                Spacer(modifier = Modifier.size(20.dp))
+                Box(
+                    modifier = Modifier
+                        .width(250.dp)
+                        .height(20.dp)
+                        .clip(CircleShape)
+                        .shimmerEffect()
+                )
+                Spacer(modifier = Modifier.size(10.dp))
+                Box(
+                    modifier = Modifier
+                        .width(120.dp)
+                        .height(20.dp)
+                        .clip(CircleShape)
+                        .shimmerEffect()
+                )
+            }
+        }
+        Row(
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(bottom = 60.dp, start = 20.dp)
+        ) {
+            Column {
+                Box(
+                    modifier = Modifier
+                        .width(350.dp)
+                        .height(20.dp)
+                        .clip(CircleShape)
+                        .shimmerEffect()
+                )
+                Spacer(modifier = Modifier.size(10.dp))
+                Box(
+                    modifier = Modifier
+                        .width(200.dp)
+                        .height(20.dp)
+                        .clip(CircleShape)
+                        .shimmerEffect()
+                )
+            }
+        }
 
-
-    } else {
-        contentAfterLoading()
     }
 }
 
@@ -168,10 +159,4 @@ fun Modifier.shimmerEffect(): Modifier = composed {
     ).onGloballyPositioned {
         size = it.size
     }
-}
-
-@Preview(showBackground = false)
-@Composable
-fun Preview() {
-    ShimmerLoading(isLoading = true, contentAfterLoading = { /*TODO*/ })
 }

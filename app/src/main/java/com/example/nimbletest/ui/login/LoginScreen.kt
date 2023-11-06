@@ -1,6 +1,7 @@
 package com.example.nimbletest.ui.login
 
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -59,7 +60,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController
             navController.popBackStack()
             navController.navigate(AppScreens.HomeScreen.route)
         } else {
-            CoverBackground()
+            CoverBackground(R.drawable.background)
             ImageLogo(
                 Modifier
                     .align(Alignment.TopCenter)
@@ -71,7 +72,7 @@ fun LoginScreen(loginViewModel: LoginViewModel, navController: NavHostController
 }
 
 @Composable
-fun CoverBackground() {
+fun CoverBackground(@DrawableRes id: Int) {
 
     val linealGradient = Brush.linearGradient(
         0.0f to Color(0x33000000),
@@ -87,7 +88,7 @@ fun CoverBackground() {
         contentAlignment = Alignment.TopCenter
     ) {
         Image(
-            painter = painterResource(id = R.drawable.background),
+            painter = painterResource(id = id),
             contentDescription = "",
             modifier = Modifier
                 .fillMaxSize()

@@ -1,5 +1,6 @@
 package com.example.nimbletest.ui.home
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -63,9 +63,12 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import kotlin.math.absoluteValue
 
 @Composable
@@ -74,109 +77,7 @@ fun HomeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     homeViewModel.onCreate()
     val isLoading by homeViewModel.isLoading.observeAsState(initial = true)
     if (isLoading) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.Black)
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(top = 61.dp, start = 20.dp)
-                    .fillMaxWidth()
-            ) {
-
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .width(117.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(90.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 20.dp, top = 15.dp),
-                    horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(36.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                }
-
-
-            }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(bottom = 130.dp, start = 20.dp)
-                    .fillMaxWidth()
-            ) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .width(40.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.size(20.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(250.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(bottom = 60.dp, start = 20.dp)
-            ) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .width(350.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.size(10.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(200.dp)
-                            .height(20.dp)
-                            .clip(CircleShape)
-                            .shimmerEffect()
-                    )
-                }
-            }
-
-        }
+        ShimmerLoading()
     } else {
         HomeView(homeViewModel, navController)
     }
@@ -196,24 +97,27 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl ) {
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
                 ModalDrawerSheet(drawerShape = RectangleShape) {
-                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr ) {
+                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                         DrawerMenu(homeViewModel, navController, scope, userData)
                     }
                 }
             },
             gesturesEnabled = true,
         ) {
-            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr ) {
+            CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                 ) {
                     HorizontalPager(count = surveyList.size, state = pagerState) { index ->
+
+                        //surveySelected.value = surveyList[0]
+
                         when (surveyList[index].title) {
                             "Scarlett Bangkok" -> surveySelected.value = surveyList[0]
                             "ibis Bangkok Riverside" -> surveySelected.value = surveyList[1]
@@ -238,7 +142,7 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
                             "Aspira (Main)" -> surveySelected.value = surveyList[18]
                             "Punjab Grill" -> surveySelected.value = surveyList[19]
                         }
-                        SurveyView(surveySelected.value, pagerState, index)
+                        SurveyView(navController, surveySelected.value, pagerState, index)
                     }
                     Row(
                         modifier = Modifier
@@ -305,7 +209,15 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
                         }
                     }
                     FloatingActionButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            val survey = Uri.encode(
+                                Gson().toJson(surveySelected.value)
+                            )
+                            navController.navigate(
+                                AppScreens.DetailScreen.route + "/${survey}"
+
+                            )
+                        },
                         containerColor = Color.White,
                         modifier = Modifier
                             .align(
@@ -329,7 +241,12 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun SurveyView(survey: Survey, pagerState: PagerState, index: Int) {
+fun SurveyView(
+    navController: NavHostController,
+    survey: Survey,
+    pagerState: PagerState,
+    index: Int
+) {
     val linealGradient = Brush.linearGradient(
         0.0f to Color(0x33000000),
         0.5f to Color(0x50000000),
@@ -353,7 +270,16 @@ fun SurveyView(survey: Survey, pagerState: PagerState, index: Int) {
             painter = rememberAsyncImagePainter("${survey.coverImageURL}l"),
             contentDescription = "Survey Background",
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .clickable {
+                    val survey = Uri.encode(
+                        Gson().toJson(survey)
+                    )
+                    navController.navigate(
+                        AppScreens.DetailScreen.route + "/${survey}"
+
+                    )
+                },
             contentScale = ContentScale.Crop
         )
         Box(
@@ -480,7 +406,7 @@ fun DrawerMenu(
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(36.dp)
-                    .weight(1f ,true),
+                    .weight(1f, true),
                 alignment = Alignment.BottomEnd
             )
         }

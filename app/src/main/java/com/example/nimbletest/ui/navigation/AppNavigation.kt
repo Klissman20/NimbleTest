@@ -2,14 +2,17 @@ package com.example.nimbletest.ui.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.nimbletest.domain.entities.Survey
+import com.example.nimbletest.infrastructure.model.SurveyParamType
+import com.example.nimbletest.ui.details.BlankScreen
+import com.example.nimbletest.ui.details.DetailScreen
 import com.example.nimbletest.ui.forgot.ForgotScreen
 import com.example.nimbletest.ui.home.HomeScreen
 import com.example.nimbletest.ui.home.HomeViewModel
@@ -64,6 +67,20 @@ fun AppNavigation() {
         ) {
             val viewModel = hiltViewModel<HomeViewModel>()
             HomeScreen(navController, viewModel)
+        }
+        composable(
+            AppScreens.DetailScreen.route + "/{survey}",
+            arguments = listOf(
+                navArgument("survey") {
+                    type = SurveyParamType()
+                }
+            )
+        ) { navBackStackEntry ->
+            val survey = navBackStackEntry.arguments?.getParcelable<Survey>("survey")
+            DetailScreen(navController, survey = survey!!)
+        }
+        composable(AppScreens.BlankDetailsScreen.route){
+            BlankScreen(navController)
         }
     }
 }

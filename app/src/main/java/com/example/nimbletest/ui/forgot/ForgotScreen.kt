@@ -35,6 +35,7 @@ import com.example.nimbletest.ui.login.ImageLogo
 import com.example.nimbletest.ui.login.LoginViewModel
 import com.example.nimbletest.ui.login.firaSansFamily
 import androidx.compose.runtime.livedata.observeAsState
+import com.example.nimbletest.R
 
 @Composable
 fun ForgotScreen(navController: NavController, loginViewModel: LoginViewModel) {
@@ -48,7 +49,7 @@ fun ForgotView(navController: NavController, loginViewModel: LoginViewModel) {
     val email: String by loginViewModel.email.observeAsState(initial = "")
 
     Box(modifier = Modifier.fillMaxSize()) {
-        CoverBackground()
+        CoverBackground(R.drawable.background)
         TopAppBar(
             title = { },
             navigationIcon = {
