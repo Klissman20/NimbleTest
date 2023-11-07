@@ -13,6 +13,8 @@ import com.example.nimbletest.domain.RefreshTokenUseCase
 import com.example.nimbletest.domain.SetTokenUseCase
 import com.example.nimbletest.domain.entities.Survey
 import com.example.nimbletest.domain.entities.User
+import com.example.nimbletest.utils.PAGE_NUMBER
+import com.example.nimbletest.utils.PAGE_SIZE
 import com.example.nimbletest.utils.USER_PREFERENCE_REFRESH_TOKEN
 import com.example.nimbletest.utils.USER_PREFERENCE_TOKEN
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,7 +54,7 @@ class HomeViewModel @Inject constructor(
             getTokenUseCase(USER_PREFERENCE_TOKEN)?.let {
                 _token.value = it
             }
-            val result = getSurveysUseCase("1","4", token.value!!)
+            val result = getSurveysUseCase(PAGE_NUMBER, PAGE_SIZE, token.value!!)
             if(!result.isNullOrEmpty()){
                 _surveyList.value = result
                 getUserDataUseCase(token.value!!).let {
@@ -74,7 +76,7 @@ class HomeViewModel @Inject constructor(
                 getTokenUseCase(USER_PREFERENCE_TOKEN)?.let {
                     _token.value = it
                 }
-                val resultSurvey = getSurveysUseCase("1","4", token.value!!)
+                val resultSurvey = getSurveysUseCase(PAGE_NUMBER,PAGE_SIZE, token.value!!)
                 _surveyList.value = resultSurvey
                 getUserDataUseCase(token.value!!).let {
                     _userData.value = it
