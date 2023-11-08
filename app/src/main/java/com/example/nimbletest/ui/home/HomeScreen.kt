@@ -166,7 +166,7 @@ fun HomeView(homeViewModel: HomeViewModel, navController: NavHostController) {
                     Row(
                         modifier = Modifier
                             .align(Alignment.BottomStart)
-                            .padding(bottom = 150.dp, start = 20.dp, end = 20.dp)
+                            .padding(bottom = 170.dp, start = 20.dp, end = 20.dp)
                             .fillMaxWidth()
                     ) {
                         Column {

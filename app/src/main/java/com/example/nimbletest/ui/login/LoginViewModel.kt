@@ -38,11 +38,11 @@ class LoginViewModel @Inject constructor(
     fun onLoginChanged(email: String, password: String?) {
         _email.value = email
         _password.value = password
-        _isLoginEnable.value = enableLogin(email)
+        _isLoginEnable.value = enableLogin(email , password ?: "")
     }
 
-    private fun enableLogin(email: String /*password: String*/): Boolean =
-        PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() //&& password.length > 6
+    private fun enableLogin(email: String , password: String): Boolean =
+        PatternsCompat.EMAIL_ADDRESS.matcher(email).matches() && password.length > 5
 
     fun onLoginSelected() {
         viewModelScope.launch {
